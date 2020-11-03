@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using MHBuilder.Core;
+using MHBuilder.WPF.ViewModels;
 
-namespace MHBuilder.WPF
+namespace MHBuilder.WPF.ViewModels
 {
     public class LocalizableStringViewModel : ViewModelBase, IDisposable
     {

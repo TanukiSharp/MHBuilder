@@ -1,6 +1,9 @@
-﻿using MHBuilder.WPF;
+﻿using MHBuilder.Core;
+using MHBuilder.Iceborne.ViewModels;
+using MHBuilder.WPF;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,15 +17,21 @@ namespace MHBuilder.Iceborne
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly RootViewModel rootViewModel = new RootViewModel();
+
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += OnMainWindowLoaded;
         }
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void OnMainWindowLoaded(object sender, RoutedEventArgs e)
         {
-            await Globals.MasterData.GetSkills();
+            await rootViewModel.Initialize();
+        }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
             WindowManager.Show<SkillSelectorWindow>();
         }
 

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Threading;
 
-namespace MHBuilder.WPF
+namespace MHBuilder.WPF.ViewModels
 {
     public abstract class ViewModelBase : INotifyPropertyChanged
     {

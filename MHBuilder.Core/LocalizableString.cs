@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -11,15 +12,36 @@ namespace MHBuilder.Core
 {
     public record Language(string DisplayName, string Code);
 
-    public class LocalizableString : Dictionary<Language, string>
+    [DebuggerDisplay("{ToString()}")]
+    public class LocalizableString : Dictionary<string, string>
     {
-        public LocalizableString() : base() { }
-        public LocalizableString(IDictionary<Language, string> dictionary) : base(dictionary) { }
-        public LocalizableString(IEnumerable<KeyValuePair<Language, string>> collection) : base(collection) { }
-        public LocalizableString(IEqualityComparer<Language>? comparer) : base(comparer) { }
-        public LocalizableString(int capacity) : base(capacity) { }
-        public LocalizableString(IDictionary<Language, string> dictionary, IEqualityComparer<Language>? comparer) : base(dictionary, comparer) { }
-        public LocalizableString(IEnumerable<KeyValuePair<Language, string>> collection, IEqualityComparer<Language>? comparer) : base(collection, comparer) { }
-        public LocalizableString(int capacity, IEqualityComparer<Language>? comparer) : base(capacity, comparer) { }
+        private new string this[string key]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string this[Language key]
+        {
+            get
+            {
+                return this[key.Code];
+            }
+        }
+
+        public bool TryGetValue(Language key, [MaybeNullWhen(false)] out string value)
+        {
+            return TryGetValue(key.Code, out value);
+        }
+
+        public override string ToString()
+        {
+            if (LocalizationContext.DefaultContext == null)
+                return "<no-localization-context>";
+
+            return this[LocalizationContext.DefaultContext.DefaultLanguage.Code];
+        }
     }
 }
