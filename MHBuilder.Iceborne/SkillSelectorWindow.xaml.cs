@@ -18,11 +18,20 @@ namespace MHBuilder.Iceborne
     /// <summary>
     /// Interaction logic for SkillSelectorWindow.xaml
     /// </summary>
-    public partial class SkillSelectorWindow : Window
+    public partial class SkillSelectorWindow : Window, IManagedWindow
     {
         public SkillSelectorWindow()
         {
             InitializeComponent();
+        }
+
+        public void OnOpening(bool isAlreadyOpened, object? argument)
+        {
+            DataContext = argument;
+        }
+
+        public void OnOpened(bool isAlreadyOpened, object? argument)
+        {
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace MHBuilder.Iceborne.ViewModels
 {
@@ -15,8 +16,16 @@ namespace MHBuilder.Iceborne.ViewModels
         private readonly ObservableCollection<SkillViewModel> skills = new ObservableCollection<SkillViewModel>();
         public ReadOnlyObservableCollection<SkillViewModel> Skills { get; }
 
+        public ICommand MehCommand { get; }
+
+        public SkillSelectorViewModel SkillSelectorViewModel { get; }
+
         public RootViewModel()
         {
+            SkillSelectorViewModel = new SkillSelectorViewModel(this);
+
+            MehCommand = new AnonymousCommand(() => WindowManager.Show<SkillSelectorWindow>(SkillSelectorViewModel));
+
             Skills = new ReadOnlyObservableCollection<SkillViewModel>(skills);
         }
 

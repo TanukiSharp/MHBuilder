@@ -22,23 +22,15 @@ namespace MHBuilder.Iceborne
         public MainWindow()
         {
             InitializeComponent();
+
+            DataContext = rootViewModel;
+
             Loaded += OnMainWindowLoaded;
         }
 
         private async void OnMainWindowLoaded(object sender, RoutedEventArgs e)
         {
             await rootViewModel.Initialize();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            WindowManager.Show<SkillSelectorWindow>();
-        }
-
-        private void Button2_Click(object sender, RoutedEventArgs e)
-        {
-            bool? result = WindowManager.ShowDialog<SkillSelectorWindow>();
-            Console.WriteLine(result);
         }
     }
 }

@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:MHBuilder.Iceborne.Views"
+                    xmlns:vm="clr-namespace:MHBuilder.Iceborne.ViewModels">
+    <DataTemplate x:Key="SkillSelectorView" DataType="{x:Type vm:SkillSelectorViewModel}">
+        <TextBlock Text="{Binding Test, Mode=OneTime}"/>
+    </DataTemplate>
+</ResourceDictionary>
