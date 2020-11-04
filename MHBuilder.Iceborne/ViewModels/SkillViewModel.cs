@@ -13,6 +13,13 @@ namespace MHBuilder.Iceborne.ViewModels
     {
         public Skill Skill { get; }
 
+        private bool isVisible = true;
+        public bool IsVisible
+        {
+            get { return isVisible; }
+            set { SetValue(ref isVisible, value); }
+        }
+
         public LocalizableStringViewModel Name { get; }
 
         public SkillViewModel(Skill skill)

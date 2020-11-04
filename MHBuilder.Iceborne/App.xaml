@@ -5,8 +5,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/MHBuilder.WPF;component/Views/LocalizableStringView.xaml"/>
+                <ResourceDictionary Source="Views/SkillSelector/SkillView.xaml"/>
+                <ResourceDictionary Source="Views/SkillSelector/SkillSelectorRootView.xaml"/>
                 <ResourceDictionary Source="Views/RootView.xaml"/>
-                <ResourceDictionary Source="Views/SkillSelectorView.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

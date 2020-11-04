@@ -6,5 +6,5 @@
         xmlns:local="clr-namespace:MHBuilder.Iceborne"
         mc:Ignorable="d"
         Title="Skill selector" Height="450" Width="800" Background="WhiteSmoke">
-    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SkillSelectorView}" Focusable="False"/>
+    <ContentControl Content="{Binding}" ContentTemplate="{StaticResource SkillSelector.SkillSelectorRootView}" Focusable="False"/>
 </Window>

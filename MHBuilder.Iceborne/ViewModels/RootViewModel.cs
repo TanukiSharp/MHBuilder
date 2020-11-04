@@ -1,13 +1,13 @@
-﻿using MHBuilder.Iceborne.Models;
-using MHBuilder.WPF;
-using MHBuilder.WPF.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MHBuilder.Iceborne.Models;
+using MHBuilder.WPF;
+using MHBuilder.WPF.ViewModels;
 
 namespace MHBuilder.Iceborne.ViewModels
 {
@@ -18,13 +18,13 @@ namespace MHBuilder.Iceborne.ViewModels
 
         public ICommand MehCommand { get; }
 
-        public SkillSelectorViewModel SkillSelectorViewModel { get; }
+        public SkillSelectorRootViewModel SkillSelectorRootViewModel { get; }
 
         public RootViewModel()
         {
-            SkillSelectorViewModel = new SkillSelectorViewModel(this);
+            SkillSelectorRootViewModel = new SkillSelectorRootViewModel(this);
 
-            MehCommand = new AnonymousCommand(() => WindowManager.Show<SkillSelectorWindow>(SkillSelectorViewModel));
+            MehCommand = new AnonymousCommand(() => WindowManager.Show<SkillSelectorWindow>(SkillSelectorRootViewModel));
 
             Skills = new ReadOnlyObservableCollection<SkillViewModel>(skills);
         }
