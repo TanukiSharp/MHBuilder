@@ -3,7 +3,7 @@
                     xmlns:vm="clr-namespace:MHBuilder.WPF.ViewModels">
 
     <DataTemplate x:Key="LocalizationStringView" DataType="{x:Type vm:LocalizableStringViewModel}">
-        <TextBlock Text="{Binding Text, Mode=OneWay}"/>
+        <TextBlock Text="{Binding Text, Mode=OneWay}" Padding="2"/>
     </DataTemplate>
 
 </ResourceDictionary>

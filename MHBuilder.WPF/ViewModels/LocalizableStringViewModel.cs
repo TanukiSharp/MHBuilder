@@ -59,6 +59,19 @@ namespace MHBuilder.WPF.ViewModels
             }
         }
 
+        public bool IsMatching(SearchStatement searchStatement)
+        {
+            LocalizationContext? localizationContext = LocalizationContext.DefaultContext;
+
+            if (localizationContext is null)
+                return false;
+
+            if (localizableString.TryGetValue(localizationContext.CurrentLanguage, out string? result) == false)
+                return false;
+
+            return searchStatement.IsMatching(result);
+        }
+
         public virtual void Dispose()
         {
             if (LocalizationContext.DefaultContext != null)

@@ -2,27 +2,96 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:vm="clr-namespace:MHBuilder.Iceborne.ViewModels">
 
+    <Style x:Key="SkillSelectorListBoxStyle" TargetType="{x:Type ListBox}">
+        <Setter Property="ItemsSource" Value="{Binding Skills, Mode=OneWay}"/>
+        <Setter Property="ItemTemplate" Value="{StaticResource SkillSelector.SkillView}"/>
+        <Setter Property="VirtualizingPanel.IsVirtualizing" Value="False"/>
+        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
+        <Setter Property="Focusable" Value="False"/>
+    </Style>
+
+    <Style x:Key="SkillSelectorSkillBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="DarkGray"/>
+        <Setter Property="CornerRadius" Value="2"/>
+        <Setter Property="Background" Value="#DFEFFF"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="TextBlock.FontSize" Value="16"/>
+    </Style>
+
     <DataTemplate x:Key="SkillSelector.SkillSelectorRootView" DataType="{x:Type vm:SkillSelectorRootViewModel}">
-        <ListBox ItemsSource="{Binding Skills, Mode=OneWay}" ItemTemplate="{StaticResource SkillSelector.SkillView}" VirtualizingPanel.IsVirtualizing="False" VirtualizingPanel.ScrollUnit="Pixel" Focusable="False">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <Border Name="root" Padding="2" SnapsToDevicePixels="True" Focusable="False">
-                                    <ContentPresenter Focusable="False"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding IsVisible}" Value="False">
-                                        <Setter TargetName="root" Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="Focusable" Value="False"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-        </ListBox>
+        <DockPanel LastChildFill="True">
+            <DockPanel DockPanel.Dock="Top" LastChildFill="True" Margin="2">
+                <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Margin="2" FontSize="16" Text="Filter:"/>
+                <TextBox DockPanel.Dock="Top" Text="{Binding SearchText.SearchText, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Margin="2" Padding="2" VerticalContentAlignment="Center" FontSize="16" VerticalAlignment="Stretch"/>
+            </DockPanel>
+
+            <UniformGrid Columns="2">
+
+                <DockPanel LastChildFill="True">
+                    <TextBlock DockPanel.Dock="Top" Text="Available skills:" Margin="4 2 2 2" FontSize="16"/>
+                    <ListBox Style="{StaticResource SkillSelectorListBoxStyle}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                            <Border x:Name="root" Style="{StaticResource SkillSelectorSkillBorderStyle}">
+                                                <ContentPresenter Focusable="False"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter TargetName="root" Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                                                    <Setter TargetName="root" Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Focusable" Value="False"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </DockPanel>
+
+                <DockPanel LastChildFill="True">
+                    <TextBlock DockPanel.Dock="Top" Text="Selected skills:" Margin="4 2 2 2" FontSize="16"/>
+                    <ListBox Style="{StaticResource SkillSelectorListBoxStyle}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                            <Border x:Name="root" Style="{StaticResource SkillSelectorSkillBorderStyle}">
+                                                <ContentPresenter Focusable="False"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter TargetName="root" Property="Background" Value="#DFFFEF"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="False">
+                                                    <Setter TargetName="root" Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                                                    <Setter TargetName="root" Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="Focusable" Value="False"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+                </DockPanel>
+
+            </UniformGrid>
+        </DockPanel>
     </DataTemplate>
+
 </ResourceDictionary>
