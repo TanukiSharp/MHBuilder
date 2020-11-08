@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Text.Json.Serialization;
+using System.Windows.Input;
+using MHBuilder.Core;
 
 namespace MHBuilder.WPF
 {
@@ -73,53 +75,6 @@ namespace MHBuilder.WPF
                 };
             }
         }
-
-        //public static bool IsInitialized<T>() where T : Window
-        //{
-        //    return GetContainerOf<T>()?.Instance != null;
-        //}
-
-        //public static void InitializeWindow<T>(T windowInstance) where T : Window
-        //{
-        //    if (windowInstance == null)
-        //        throw new ArgumentNullException(nameof(windowInstance));
-
-        //    string key = GetKeyOf<T>();
-
-        //    if (windowContainers.TryGetValue(key, out WindowContainer? container))
-        //    {
-        //        if (container.Instance != null)
-        //            throw new InvalidOperationException($"Window of type '{key}' is already initialized.");
-        //        else
-        //            container.Instance = windowInstance;
-        //    }
-        //    else
-        //    {
-        //        container = new WindowContainer { Instance = windowInstance };
-        //        windowContainers.Add(key, container);
-        //    }
-        //}
-
-        //public static void RestoreWindowState<T>(T instance) where T : Window
-        //{
-        //    WindowContainer? container = GetContainerOf<T>();
-
-        //    if (container != null)
-        //        RestorePositionInternal(container, instance);
-        //}
-
-        //public static void StoreWindowState<T>(T instance) where T : Window
-        //{
-        //    string key = GetKeyOf<T>();
-
-        //    if (windowContainers.TryGetValue(key, out WindowContainer? container) == false)
-        //    {
-        //        container = new WindowContainer();
-        //        windowContainers.Add(key, container);
-        //    }
-
-        //    StorePositionInternal(container, instance);
-        //}
 
         public static void Show<T>(object? argument = null) where T : Window
         {
@@ -272,6 +227,22 @@ namespace MHBuilder.WPF
                 window = Activator.CreateInstance<T>();
                 window.Closing += OnWindowClosing;
                 container.Instance = window;
+
+                window.InputBindings.Add(new InputBinding(new AnonymousCommand(() =>
+                {
+                    bool shouldClose = true;
+
+                    if (window is IManagedWindow managedWindow)
+                    {
+                        var cancellableOperationParameter = new CancellableOperationParameter();
+                        managedWindow.OnCancel(cancellableOperationParameter);
+                        if (cancellableOperationParameter.IsCancelled)
+                            shouldClose = false;
+                    }
+
+                    if (shouldClose)
+                        window.Close();
+                }), new KeyGesture(Key.Escape, ModifierKeys.None)));
             }
 
             return container;

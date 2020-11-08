@@ -16,15 +16,15 @@ namespace MHBuilder.WPF.ViewModels
             this.onSearchTextChanged = onSearchTextChanged;
         }
 
-        private string? searchText;
-        public string? SearchText
+        private string? value;
+        public string? Value
         {
-            get { return searchText; }
+            get { return value; }
             set
             {
-                if (SetValue(ref searchText, value))
+                if (SetValue(ref this.value, value))
                 {
-                    var searchStatement = SearchStatement.Create(searchText, null);
+                    var searchStatement = SearchStatement.Create(value, null);
                     onSearchTextChanged(searchStatement);
                 }
             }

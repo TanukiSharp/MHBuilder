@@ -1,6 +1,9 @@
-﻿using MHBuilder.WPF;
+﻿using MHBuilder.Core;
+using MHBuilder.Iceborne.ViewModels;
+using MHBuilder.WPF;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +23,8 @@ namespace MHBuilder.Iceborne
     /// </summary>
     public partial class SkillSelectorWindow : Window, IManagedWindow
     {
+        private SkillSelectorRootViewModel? skillSelectorRootViewModel;
+
         public SkillSelectorWindow()
         {
             InitializeComponent();
@@ -27,11 +32,17 @@ namespace MHBuilder.Iceborne
 
         public void OnOpening(bool isAlreadyOpened, object? argument)
         {
-            DataContext = argument;
+            skillSelectorRootViewModel = (SkillSelectorRootViewModel?)argument;
+            DataContext = skillSelectorRootViewModel;
         }
 
-        public void OnOpened(bool isAlreadyOpened, object? argument)
+        public void OnCancel(CancellableOperationParameter cancellableOperationParameter)
         {
+            if (skillSelectorRootViewModel is not null && string.IsNullOrWhiteSpace(skillSelectorRootViewModel.SearchText.Value) == false)
+            {
+                skillSelectorRootViewModel.SearchText.Value = string.Empty;
+                cancellableOperationParameter.IsCancelled = true;
+            }
         }
     }
 }
